@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 public class CountryListActivity extends AppCompatActivity {
 
+    private
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

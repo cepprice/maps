@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id "androidx.navigation.safeargs"
 }
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 30
@@ -50,6 +51,11 @@ dependencies {
     // Rx
     implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 
+}
+repositories {
+    mavenCentral()
 }
