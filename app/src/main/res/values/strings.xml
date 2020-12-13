@@ -3,5 +3,6 @@
 
     <string name="countries_toolbar_title">Download Maps</string>
     <string name="countries_label_device_memory">Device memory</string>
+    <string name="countries_label_free_gigabytes">Free %s Gb</string>
     <string name="countries_label_europe">Europe</string>
 </resources>
