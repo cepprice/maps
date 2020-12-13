@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@color/activity_background"
     tools:ignore="RtlHardcoded"
-    tools:context=".ui.CountryListActivity">
+    tools:context=".ui.contries.CountryListActivity">
 
     <Toolbar
         android:id="@+id/toolbar"
@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:elevation="1dp"
         android:paddingLeft="@dimen/spacing_16"
         android:paddingTop="@dimen/spacing_12"
         android:paddingRight="@dimen/spacing_16"
@@ -33,7 +34,8 @@
             android:text="@string/countries_label_device_memory"
             android:textColor="@color/regular_text"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:viewBindingIgnore="true"/>
 
         <TextView
             android:id="@+id/tv_free_gb"
@@ -45,7 +47,7 @@
             tools:text="Free 3.61 GB" />
 
         <ProgressBar
-            android:id="@+id/progress_bar"
+            android:id="@+id/progress_free_space"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="0dp"
             android:layout_height="@dimen/progress_bar_height_16"
@@ -63,7 +65,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/white"
-        android:layout_marginTop="@dimen/spacing_24">
+        android:elevation="1dp"
+        android:layout_marginTop="@dimen/spacing_24"
+        android:layout_marginBottom="@dimen/spacing_24">
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,7 +82,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"/>
 
     </LinearLayout>
 
