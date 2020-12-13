@@ -10,6 +10,7 @@
     <color name="icon_tint">#727272</color>
     <color name="icon_downloaded">#8CC474</color>
     <color name="progress_unfilled">#F0F0F0</color>
+    <color name="progress_downloaded">#2175F3</color>
 
     <color name="regular_text">#212121</color>
 
