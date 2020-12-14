@@ -2,7 +2,7 @@ package ru.cepprice.maps.data;
 
 import java.util.ArrayList;
 
-import ru.cepprice.maps.utils.MapState;
+import ru.cepprice.maps.utils.mapstate.MapState;
 
 public class Region {
 
@@ -10,7 +10,7 @@ public class Region {
     private String downloadName;
     private String innerDownloadPrefix;
 
-    private MapState state = MapState.NOT_PROVIDED;
+    private MapState state;
 
     private final ArrayList<Region> childRegions = new ArrayList<>();
 

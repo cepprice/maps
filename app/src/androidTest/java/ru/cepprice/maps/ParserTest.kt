@@ -9,8 +9,9 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.cepprice.maps.data.Region
-import ru.cepprice.maps.utils.MapState
 import ru.cepprice.maps.utils.RegionProvider
+import ru.cepprice.maps.utils.mapstate.NotDownloaded
+import ru.cepprice.maps.utils.mapstate.NotProvided
 
 @RunWith(AndroidJUnit4::class)
 class ParserTest {
@@ -40,7 +41,7 @@ class ParserTest {
             assertEquals("Denmark_europe_2.obf.zip", downloadName)
             assertEquals("denmark", innerDownloadPrefix)
             assertEquals(5, childRegions.size)
-            assertEquals(MapState.NOT_DOWNLOADED, mapState)
+            assertTrue(mapState is NotDownloaded)
         }
 
         val northDenmarkRegion = denmark.childRegions[2]
@@ -49,7 +50,7 @@ class ParserTest {
             assertEquals("Denmark_north-region_europe_2.obf.zip", downloadName)
             assertEquals(0, childRegions.size)
             assertEquals("", innerDownloadPrefix)
-            assertEquals(MapState.NOT_DOWNLOADED, mapState)
+            assertTrue(mapState is NotDownloaded)
         }
 
     }
@@ -62,9 +63,9 @@ class ParserTest {
         val germany = list[0]
         with(germany) {
             assertEquals("Germany", name)
-            assertEquals(MapState.NOT_PROVIDED, mapState)
             assertEquals("", downloadName)
             assertEquals("germany", innerDownloadPrefix)
+            assertTrue(mapState is NotProvided)
             assertTrue(childRegions.size == 15)
         }
 
@@ -78,7 +79,7 @@ class ParserTest {
             assertEquals("Germany_baden-wuerttemberg_europe_2.obf.zip", downloadName)
             assertEquals("germany_baden-wuerttemberg", innerDownloadPrefix)
             assertTrue(childRegions.size == 4)
-            assertEquals(MapState.NOT_DOWNLOADED, mapState)
+            assertTrue(mapState is NotDownloaded)
         }
 
         // Regierungsbezirk Karlsruhe
@@ -88,9 +89,9 @@ class ParserTest {
         val karlsruhe = list2.first()
         with(karlsruhe) {
             assertEquals("Regierungsbezirk Karlsruhe", name)
-            assertEquals(MapState.NOT_DOWNLOADED, mapState)
             assertEquals("Germany_baden-wuerttemberg_karlsruhe_europe_2.obf.zip", downloadName)
             assertEquals("", innerDownloadPrefix)
+            assertTrue(mapState is NotDownloaded)
             assertTrue(childRegions.isEmpty())
         }
 
@@ -104,9 +105,9 @@ class ParserTest {
         val monaco = list.first()
         with(monaco) {
             assertEquals("Monaco", name)
-            assertEquals(MapState.NOT_DOWNLOADED, mapState)
             assertEquals("Monaco_europe_2.obf.zip", downloadName)
             assertEquals("", innerDownloadPrefix)
+            assertTrue(mapState is NotDownloaded)
             assertTrue(childRegions.isEmpty())
         }
     }

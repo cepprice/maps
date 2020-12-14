@@ -11,6 +11,10 @@ import java.util.ArrayList;
 
 import ru.cepprice.maps.R;
 import ru.cepprice.maps.data.Region;
+import ru.cepprice.maps.utils.mapstate.Downloaded;
+import ru.cepprice.maps.utils.mapstate.MapState;
+import ru.cepprice.maps.utils.mapstate.NotDownloaded;
+import ru.cepprice.maps.utils.mapstate.NotProvided;
 
 public class RegionProvider {
 
@@ -36,7 +40,7 @@ public class RegionProvider {
             if (isCountry()) {
                 Region country = createRegion(getNameAttr(), downloadedMaps);
                 countries.add(country);
-                Log.d("M_Utils", "Added country: " + country);
+                Log.d("M_Utils", "Added country: " + country.getName());
                 next();
                 continue;
             }
@@ -48,7 +52,7 @@ public class RegionProvider {
                 Region region = createRegion(
                         parentCountry.getInnerDownloadPrefix(), downloadedMaps);
                 parentCountry.getChildRegions().add(region);
-                Log.d("M_Utils", "  └─Added region: " + region);
+                Log.d("M_Utils", "  └─Added region: " + region.getName());
                 next();
                 continue;
             }
@@ -91,10 +95,12 @@ public class RegionProvider {
 
         String downloadName = getDownloadName(prefix);
 
-        MapState mapState = MapState.NOT_PROVIDED;
+        MapState mapState;
         if (isMapProvided()) {
-            if (downloadedMaps.contains(downloadName)) mapState = MapState.DOWNLOADED;
-            else mapState = MapState.NOT_DOWNLOADED;
+            if (downloadedMaps.contains(downloadName)) mapState = new Downloaded();
+            else mapState = new NotDownloaded();
+        } else {
+            mapState = new NotProvided();
         }
 
         return Region.builder()
