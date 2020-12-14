@@ -9,10 +9,10 @@
 
     <ImageView
         android:id="@+id/ic_globe"
-        android:layout_width="@dimen/ic_size_18"
-        android:layout_height="@dimen/ic_size_18"
+        android:layout_width="@dimen/ic_size_20"
+        android:layout_height="@dimen/ic_size_20"
         android:layout_marginLeft="@dimen/spacing_16"
-        android:src="@drawable/ic_world_globe_dark"
+        android:src="@drawable/ic_map"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -47,7 +47,7 @@
 
     <ImageView
         android:id="@+id/ic_btn"
-        android:layout_width="@dimen/ic_size_18"
+        android:layout_width="@dimen/ic_size_20"
         android:layout_height="0dp"
         app:tint="@color/icon_tint"
         app:layout_constraintBottom_toBottomOf="parent"
