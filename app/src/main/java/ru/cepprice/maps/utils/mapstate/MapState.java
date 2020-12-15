@@ -2,7 +2,9 @@ package ru.cepprice.maps.utils.mapstate;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.DrawableRes;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -10,11 +12,21 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import ru.cepprice.maps.R;
 import ru.cepprice.maps.data.Region;
+import ru.cepprice.maps.ui.adapter.RegionListAdapter;
 
 public abstract class MapState {
 
-    public abstract void onImageButtonClick(Region region, ImageView ivAction);
-    public abstract void renderImages(ImageView ivMap, ImageView ivAction);
+    public abstract void onImageButtonClick(Region region, RegionListAdapter.RegionViewHolder holder);
+    public abstract void renderViewHolder(RegionListAdapter.RegionViewHolder holder);
+
+    protected void hideProgressBar(ProgressBar progressBar) {
+        progressBar.setVisibility(View.GONE);
+    }
+
+    protected void showProgressBar(ProgressBar progressBar) {
+        progressBar.setVisibility(View.VISIBLE);
+        // TODO: Set progress?
+    }
 
     protected void setImageDrawable(ImageView image, @DrawableRes int drawable) {
         Context context = image.getContext();
