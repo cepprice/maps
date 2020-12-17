@@ -1,6 +1,6 @@
 package ru.cepprice.maps.utils
 
-import ru.cepprice.maps.data.Region
+import ru.cepprice.maps.data.model.Region
 
 object KotlinUtils {
 

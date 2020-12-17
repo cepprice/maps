@@ -7,7 +7,7 @@ import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import ru.cepprice.maps.utils.InternalStorageHelper
+import ru.cepprice.maps.data.local.InternalStorageHelper
 
 @RunWith(AndroidJUnit4::class)
 class InternalStorageHelperTest {

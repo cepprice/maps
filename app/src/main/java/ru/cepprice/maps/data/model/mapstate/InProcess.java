@@ -1,16 +1,16 @@
-package ru.cepprice.maps.utils.mapstate;
+package ru.cepprice.maps.data.model.mapstate;
 
 import android.util.Log;
-import android.view.View;
 
 import ru.cepprice.maps.R;
-import ru.cepprice.maps.data.Region;
+import ru.cepprice.maps.data.model.Region;
 import ru.cepprice.maps.ui.adapter.RegionListAdapter;
+import ru.cepprice.maps.data.remote.MapsDownloadManager;
 
 public class InProcess extends MapState {
 
     @Override
-    public void onImageButtonClick(Region region, RegionListAdapter.RegionViewHolder holder) {
+    public void onImageButtonClick(Region region, RegionListAdapter.RegionViewHolder holder, MapsDownloadManager downloadManager) {
         // TODO: Cancel downloading
         Log.d("M_MapState", "Cancel downloading");
         setImageDrawable(holder.getIvAction(), R.drawable.ic_action_import);
@@ -19,10 +19,10 @@ public class InProcess extends MapState {
     }
 
     @Override
-    public void renderViewHolder(RegionListAdapter.RegionViewHolder holder) {
+    public void renderViewHolder(RegionListAdapter.RegionViewHolder holder, int progress) {
         setImageDrawable(holder.getIvMap(), R.drawable.ic_map);
         setImageDrawable(holder.getIvAction(), R.drawable.ic_action_remove_dark);
         showProgressBar(holder.getDownloadProgressBar());
-        // TODO: how to set progress?
+        holder.getDownloadProgressBar().setProgress(progress);
     }
 }

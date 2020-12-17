@@ -1,4 +1,4 @@
-package ru.cepprice.maps.utils;
+package ru.cepprice.maps.data.local;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,11 +10,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import ru.cepprice.maps.R;
-import ru.cepprice.maps.data.Region;
-import ru.cepprice.maps.utils.mapstate.Downloaded;
-import ru.cepprice.maps.utils.mapstate.MapState;
-import ru.cepprice.maps.utils.mapstate.NotDownloaded;
-import ru.cepprice.maps.utils.mapstate.NotProvided;
+import ru.cepprice.maps.data.model.Region;
+import ru.cepprice.maps.utils.Utils;
+import ru.cepprice.maps.data.model.mapstate.Downloaded;
+import ru.cepprice.maps.data.model.mapstate.MapState;
+import ru.cepprice.maps.data.model.mapstate.NotDownloaded;
+import ru.cepprice.maps.data.model.mapstate.NotProvided;
 
 public class RegionProvider {
 

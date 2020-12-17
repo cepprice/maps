@@ -1,4 +1,4 @@
-package ru.cepprice.maps.utils;
+package ru.cepprice.maps.data.local;
 
 import android.content.Context;
 import android.os.Environment;

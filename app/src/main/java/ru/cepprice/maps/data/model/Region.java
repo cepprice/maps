@@ -1,8 +1,8 @@
-package ru.cepprice.maps.data;
+package ru.cepprice.maps.data.model;
 
 import java.util.ArrayList;
 
-import ru.cepprice.maps.utils.mapstate.MapState;
+import ru.cepprice.maps.data.model.mapstate.MapState;
 
 public class Region {
 
@@ -12,11 +12,15 @@ public class Region {
 
     private MapState state;
 
+    private int progress = 0;
+
     private final ArrayList<Region> childRegions = new ArrayList<>();
 
     public void setMapState(MapState state) {
         this.state = state;
     }
+
+    public void setProgress(int progress) { this.progress = progress; }
 
     public String getName() {
         return name;
@@ -33,6 +37,8 @@ public class Region {
     public MapState getMapState() {
         return state;
     }
+
+    public int getProgress() { return progress; }
 
     public ArrayList<Region> getChildRegions() {
         return childRegions;
@@ -63,6 +69,11 @@ public class Region {
 
         public Builder mapState(MapState state) {
             Region.this.state = state;
+            return this;
+        }
+
+        public Builder downloadProgress(int progress) {
+            Region.this.progress = progress;
             return this;
         }
 

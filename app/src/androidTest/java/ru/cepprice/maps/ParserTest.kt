@@ -8,10 +8,10 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import ru.cepprice.maps.data.Region
-import ru.cepprice.maps.utils.RegionProvider
-import ru.cepprice.maps.utils.mapstate.NotDownloaded
-import ru.cepprice.maps.utils.mapstate.NotProvided
+import ru.cepprice.maps.data.model.Region
+import ru.cepprice.maps.data.local.RegionProvider
+import ru.cepprice.maps.data.model.mapstate.NotDownloaded
+import ru.cepprice.maps.data.model.mapstate.NotProvided
 
 @RunWith(AndroidJUnit4::class)
 class ParserTest {
