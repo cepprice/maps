@@ -30,6 +30,9 @@ public class MapsDownloadManager {
     private final DownloadManager manager;
     private final DownloadProgressRetriever progressRetriever;
 
+    private final BroadcastReceiver onCompleteReceiver;
+    private final BroadcastReceiver onNotificationClickReceiver;
+
     private final Queue<Region> regions;
 
     private long lastDownload;
@@ -41,9 +44,21 @@ public class MapsDownloadManager {
         listener = (Downloader) context;
         manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         progressRetriever = new DownloadProgressRetriever(manager, listener);
+
+        onCompleteReceiver = setupOnCompleteReceiver();
+        onNotificationClickReceiver = setupOnNotificationClickReceiver();
     }
 
-    public BroadcastReceiver getOnCompleteReceiver() {
+    public BroadcastReceiver getOnCompleteReceiver() { return onCompleteReceiver; }
+
+    public BroadcastReceiver getOnNotificationClickReceiver() { return onNotificationClickReceiver; }
+
+    public void enqueueDownload(Region region) {
+        regions.add(region);
+        if (regions.size() == 1) performDownloadOperation(region);
+    }
+
+    private BroadcastReceiver setupOnCompleteReceiver() {
         return new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -58,18 +73,13 @@ public class MapsDownloadManager {
         };
     }
 
-    public BroadcastReceiver getOnNotificationClickReceiver() {
+    private BroadcastReceiver setupOnNotificationClickReceiver() {
         return new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 // Nothing yet
             }
         };
-    }
-
-    public void enqueueDownload(Region region) {
-        regions.add(region);
-        if (regions.size() == 1) performDownloadOperation(region);
     }
 
     private void performDownloadOperation(Region region) {
