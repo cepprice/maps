@@ -1,10 +1,27 @@
 package ru.cepprice.maps.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import ru.cepprice.maps.data.model.mapstate.MapState;
 
-public class Region {
+public class Region implements Parcelable {
+
+    public static final Parcelable.Creator<Region> CREATOR = new Parcelable.Creator<Region>() {
+        @Override
+        public Region createFromParcel(Parcel source) {
+            return Region.builder().build();
+        }
+
+        @Override
+        public Region[] newArray(int size) {
+            return new Region[size];
+        }
+    };
+
 
     private String name;
     private String downloadName;
@@ -14,7 +31,36 @@ public class Region {
 
     private int progress = 0;
 
-    private final ArrayList<Region> childRegions = new ArrayList<>();
+    private final List<Region> childRegions = new ArrayList<>();
+
+    private Region() {}
+
+    private Region(Parcel in) {
+        state = in.readParcelable(MapState.class.getClassLoader());
+        String[] strings = in.createStringArray();
+        name = strings[0];
+        downloadName = strings[1];
+        innerDownloadPrefix = strings[2];
+        progress = Integer.parseInt(strings[3]);
+//        Parcelable[] parcelableRegions = in.readParcelableArray(Region.class.getClassLoader());
+//        for (int i = 0; i < parcelableRegions.length; i++) {
+//            childRegions.add(new Region(parcelableRegions[i]));
+//        }
+        childRegions.addAll((List<Region>)in.readValue(List.class.getClassLoader()));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringArray(new String[] {name, downloadName, innerDownloadPrefix, String.valueOf(progress)});
+        dest.writeParcelable(state, flags);
+        dest.writeValue(childRegions);
+//        dest.writeTypedArray(childRegions.toArray(new Region[] {}), flags);
+    }
 
     public void setMapState(MapState state) {
         this.state = state;
@@ -40,7 +86,7 @@ public class Region {
 
     public int getProgress() { return progress; }
 
-    public ArrayList<Region> getChildRegions() {
+    public List<Region> getChildRegions() {
         return childRegions;
     }
 

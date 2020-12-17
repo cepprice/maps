@@ -2,6 +2,8 @@ package ru.cepprice.maps.data.model.mapstate;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -15,7 +17,17 @@ import ru.cepprice.maps.data.model.Region;
 import ru.cepprice.maps.ui.adapter.RegionListAdapter;
 import ru.cepprice.maps.data.remote.MapsDownloadManager;
 
-public abstract class MapState {
+public abstract class MapState implements Parcelable {
+
+    protected MapState(Parcel in) {}
+
+    protected MapState() {}
+
+    @Override
+    public int describeContents() { return 0; }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {}
 
     public abstract void onImageButtonClick(
             Region region,

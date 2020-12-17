@@ -1,5 +1,7 @@
 package ru.cepprice.maps.data.model.mapstate;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import ru.cepprice.maps.R;
@@ -9,6 +11,24 @@ import ru.cepprice.maps.ui.adapter.RegionListAdapter.RegionViewHolder;
 import ru.cepprice.maps.utils.Utils;
 
 public class NotDownloaded extends MapState {
+
+    public static final Parcelable.Creator<NotDownloaded> CREATOR = new Parcelable.Creator<NotDownloaded>() {
+        @Override
+        public NotDownloaded createFromParcel(Parcel source) {
+            return new NotDownloaded(source);
+        }
+
+        @Override
+        public NotDownloaded[] newArray(int size) {
+            return new NotDownloaded[size];
+        }
+    };
+
+    protected NotDownloaded(Parcel in) {
+        super(in);
+    }
+
+    public NotDownloaded() {}
 
     @Override
     public void onImageButtonClick(

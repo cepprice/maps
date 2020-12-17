@@ -1,5 +1,7 @@
 package ru.cepprice.maps.data.model.mapstate;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import ru.cepprice.maps.R;
@@ -8,6 +10,24 @@ import ru.cepprice.maps.ui.adapter.RegionListAdapter;
 import ru.cepprice.maps.data.remote.MapsDownloadManager;
 
 public class InProcess extends MapState {
+
+    public static final Parcelable.Creator<InProcess> CREATOR = new Parcelable.Creator<InProcess>() {
+        @Override
+        public InProcess createFromParcel(Parcel source) {
+            return new InProcess(source);
+        }
+
+        @Override
+        public InProcess[] newArray(int size) {
+            return new InProcess[size];
+        }
+    };
+
+    protected InProcess(Parcel in) {
+        super(in);
+    }
+
+    public InProcess() {}
 
     @Override
     public void onImageButtonClick(Region region, RegionListAdapter.RegionViewHolder holder, MapsDownloadManager downloadManager) {
