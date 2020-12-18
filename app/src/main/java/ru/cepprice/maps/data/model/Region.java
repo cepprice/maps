@@ -13,7 +13,7 @@ public class Region implements Parcelable {
     public static final Parcelable.Creator<Region> CREATOR = new Parcelable.Creator<Region>() {
         @Override
         public Region createFromParcel(Parcel source) {
-            return Region.builder().build();
+            return new Region(source);
         }
 
         @Override
@@ -36,17 +36,13 @@ public class Region implements Parcelable {
     private Region() {}
 
     private Region(Parcel in) {
-        state = in.readParcelable(MapState.class.getClassLoader());
         String[] strings = in.createStringArray();
         name = strings[0];
         downloadName = strings[1];
         innerDownloadPrefix = strings[2];
         progress = Integer.parseInt(strings[3]);
-//        Parcelable[] parcelableRegions = in.readParcelableArray(Region.class.getClassLoader());
-//        for (int i = 0; i < parcelableRegions.length; i++) {
-//            childRegions.add(new Region(parcelableRegions[i]));
-//        }
-        childRegions.addAll((List<Region>)in.readValue(List.class.getClassLoader()));
+        state = in.readParcelable(MapState.class.getClassLoader());
+        childRegions.addAll((List<Region>)in.readValue(Region.class.getClassLoader()));
     }
 
     @Override
@@ -59,7 +55,6 @@ public class Region implements Parcelable {
         dest.writeStringArray(new String[] {name, downloadName, innerDownloadPrefix, String.valueOf(progress)});
         dest.writeParcelable(state, flags);
         dest.writeValue(childRegions);
-//        dest.writeTypedArray(childRegions.toArray(new Region[] {}), flags);
     }
 
     public void setMapState(MapState state) {
