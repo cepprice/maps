@@ -55,7 +55,7 @@
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/progress_bar_height_16"
-                android:progressDrawable="@drawable/progress_bar_free_space"
+                android:progressDrawable="@drawable/progress_bar_device_memory"
                 app:layout_constraintLeft_toLeftOf="@id/tv_label_device"
                 app:layout_constraintTop_toBottomOf="@id/tv_label_device"
                 app:layout_constraintRight_toRightOf="@id/tv_free_gb"
