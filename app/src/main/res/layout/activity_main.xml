@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/primary"
-            app:title="@string/countries_toolbar_title"
+            app:title="@string/main_toolbar_title"
             app:titleTextColor="@color/white" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,7 +35,7 @@
                 android:id="@+id/tv_label_device"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/countries_label_device_memory"
+                android:text="@string/main_label_device_memory"
                 android:textColor="@color/regular_text"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -76,7 +76,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:text="@string/countries_label_europe"
+                android:text="@string/main_label_europe"
                 android:textSize="@dimen/font_normal_16"
                 android:textColor="@color/regular_text"
                 android:textStyle="bold"

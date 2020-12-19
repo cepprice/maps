@@ -65,7 +65,7 @@ public class MainActivity extends DownloadingActivity {
         double total = StorageHelper.getTotalGigabytes();
 
         String formattedGigabytes = String.format("%.2f", free).replace(',', '.');
-        String text = getString(R.string.countries_label_free_gigabytes, formattedGigabytes);
+        String text = getString(R.string.main_label_free_gigabytes, formattedGigabytes);
         binding.tvFreeGb.setText(text);
 
         int totalProgress = 100;
