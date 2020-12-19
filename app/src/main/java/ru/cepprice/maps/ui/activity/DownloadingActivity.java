@@ -4,6 +4,7 @@ import android.app.DownloadManager;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -65,12 +66,14 @@ public abstract class DownloadingActivity
 
     @Override
     public void onDownloaded(Region region) {
+        Log.d("M_DownloadingActivity", "Downloaded: " + region.getName());
         region.setMapState(new Downloaded());
         adapter.updateItem(region);
     }
 
     @Override
     public void onCancelled(Region region) {
+        Log.d("M_DownloadingActivity", "Cancelled: " + region.getName());
         region.setMapState(new NotDownloaded());
         updateListItem(region, 0);
     }

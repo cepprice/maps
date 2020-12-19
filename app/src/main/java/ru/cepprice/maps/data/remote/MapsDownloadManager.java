@@ -72,22 +72,75 @@ public class MapsDownloadManager {
                 if (!intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) return;
 
                 Region downloadedRegion = regions.poll();
-
-                if (isDownloadSuccessful()) downloadConsumer.onDownloaded(downloadedRegion);
-                else downloadConsumer.onCancelled(downloadedRegion);
+                long id = lastDownloadId;
 
                 if (lastDisposable != null) lastDisposable.dispose();
                 pollAllCancelledDownloads();
                 performDownloadOperation(regions.peek());
+
+                if (downloadedRegion == null) {
+                    Log.d("M_MapsDownloadManager", "Polling empty queue");
+                    return;
+                }
+
+                if (isDownloadSuccessful(id)) {
+                    downloadConsumer.onDownloaded(downloadedRegion);
+                }
+                else {
+                    logErrorReason(id);
+                    downloadConsumer.onCancelled(downloadedRegion);
+                }
             }
         };
     }
 
-    private boolean isDownloadSuccessful() {
-        Cursor cursor = downloadManager.query(new DownloadManager.Query().setFilterById(lastDownloadId));
+    private boolean isDownloadSuccessful(long id) {
+        Cursor cursor = downloadManager.query(new DownloadManager.Query().setFilterById(id));
         if (!cursor.moveToFirst()) return false;
         int status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
         return status == DownloadManager.STATUS_SUCCESSFUL;
+    }
+
+    private void logErrorReason(long id) {
+        DownloadManager.Query query = new DownloadManager.Query();
+        query.setFilterById(id);
+        Cursor cursor = downloadManager.query(query);
+
+        if (!cursor.moveToFirst()) {
+            Log.d("M_MapsDownloadManager", "User cancelled download");
+            return;
+        }
+
+        int columnReasonIdx = cursor.getColumnIndex(DownloadManager.COLUMN_REASON);
+        int reason = cursor.getInt(columnReasonIdx);
+
+        switch (reason) {
+            case DownloadManager.ERROR_CANNOT_RESUME:
+                Log.d("M_MapsDownloadManager", "ERROR_CANNOT_RESUME");
+                break;
+            case DownloadManager.ERROR_DEVICE_NOT_FOUND:
+                Log.d("M_MapsDownloadManager", "ERROR_DEVICE_NOT_FOUND");
+                break;
+            case DownloadManager.ERROR_FILE_ALREADY_EXISTS:
+                Log.d("M_MapsDownloadManager", "ERROR_FILE_ALREADY_EXISTS");
+                break;
+            case DownloadManager.ERROR_FILE_ERROR:
+                Log.d("M_MapsDownloadManager", "ERROR_FILE_ERROR");
+                break;
+            case DownloadManager.ERROR_HTTP_DATA_ERROR:
+                Log.d("M_MapsDownloadManager", "ERROR_HTTP_DATA_ERROR");
+                break;
+            case DownloadManager.ERROR_INSUFFICIENT_SPACE:
+                Log.d("M_MapsDownloadManager", "ERROR_INSUFFICIENT_SPACE");
+                break;
+            case DownloadManager.ERROR_TOO_MANY_REDIRECTS:
+                Log.d("M_MapsDownloadManager", "ERROR_TOO_MANY_REDIRECTS");
+                break;
+            case DownloadManager.ERROR_UNKNOWN:
+                Log.d("M_MapsDownloadManager", "ERROR_UNKNOWN");
+                break;
+        }
+
     }
 
     private void setupOnNotificationClickReceiver() {
