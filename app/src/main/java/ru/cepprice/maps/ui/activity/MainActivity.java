@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements DownloadConsumer 
     public void onDownloaded(Region region) {
         region.setMapState(new Downloaded());
         adapter.updateItem(region);
+        setupDeviceMemoryInfo();
     }
 
     @Override
