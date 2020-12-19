@@ -1,6 +1,7 @@
 package ru.cepprice.maps.data.model.mapstate;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -59,11 +60,11 @@ public abstract class MapState implements Parcelable {
         image.setImageDrawable(drawable);
     }
 
-    protected Drawable getColoredDrawable(Context context, @DrawableRes int drawable) {
-        Drawable unwrappedDrawable = AppCompatResources.getDrawable(context, drawable);
-        Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
-        DrawableCompat.setTint(wrappedDrawable, ContextCompat.getColor(context, R.color.icon_downloaded));
-        return wrappedDrawable;
+    protected Drawable getColoredMapDrawable(Context context) {
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_map);
+        int greenColor = ContextCompat.getColor(context, R.color.icon_downloaded);
+        drawable.mutate().setColorFilter(greenColor, PorterDuff.Mode.SRC_IN);
+        return drawable;
     }
 
 }
