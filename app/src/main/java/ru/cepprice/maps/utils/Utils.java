@@ -18,10 +18,6 @@ public class Utils {
         return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 
-    public static boolean isExternalStorageAvailable() {
-        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
-    }
-
     public static void navigateToRegionListActivity(Activity context, Region region) {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.KEY_REGION_NAME, region.getName());

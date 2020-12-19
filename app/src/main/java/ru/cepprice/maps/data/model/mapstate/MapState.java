@@ -44,7 +44,6 @@ public abstract class MapState implements Parcelable {
 
     protected void showProgressBar(ProgressBar progressBar) {
         progressBar.setVisibility(View.VISIBLE);
-        // TODO: Set progress?
     }
 
     protected void resetProgress(ProgressBar progressBar) {
