@@ -1,90 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/activity_background"
-    tools:ignore="RtlHardcoded"
-    tools:context=".ui.contries.CountryListActivity">
+    android:background="@color/activity_background">
 
-    <Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/primary"
-        android:titleTextColor="@color/white"
-        android:title="@string/countries_toolbar_title"/>
-    
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:elevation="1dp"
-        android:paddingLeft="@dimen/spacing_16"
-        android:paddingTop="@dimen/spacing_12"
-        android:paddingRight="@dimen/spacing_16"
-        android:paddingBottom="@dimen/spacing_12">
-
-        <TextView
-            android:id="@+id/tv_label_device"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/countries_label_device_memory"
-            android:textColor="@color/regular_text"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:viewBindingIgnore="true"/>
-
-        <TextView
-            android:id="@+id/tv_free_gb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/regular_text"
-            app:layout_constraintBaseline_toBaselineOf="@id/tv_label_device"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:text="Free 3.61 GB" />
-
-        <ProgressBar
-            android:id="@+id/progress_free_space"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/progress_bar_height_16"
-            android:progressDrawable="@drawable/progress_bar_free_space"
-            app:layout_constraintLeft_toLeftOf="@id/tv_label_device"
-            app:layout_constraintTop_toBottomOf="@id/tv_label_device"
-            app:layout_constraintRight_toRightOf="@id/tv_free_gb"
-            android:layout_marginTop="@dimen/spacing_8"
-            tools:progress="50"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/white"
-        android:elevation="1dp"
-        android:layout_marginTop="@dimen/spacing_24"
-        android:layout_marginBottom="@dimen/spacing_24">
+        tools:ignore="RtlHardcoded"
+        tools:context=".ui.activity.MainActivity">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="@string/countries_label_europe"
-            android:textSize="@dimen/font_normal_16"
-            android:textColor="@color/regular_text"
-            android:textStyle="bold"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="@dimen/spacing_16" />
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/primary"
+            app:title="@string/countries_toolbar_title"
+            app:titleTextColor="@color/white" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:overScrollMode="never"/>
+            android:background="@color/white"
+            android:elevation="1dp"
+            android:paddingLeft="@dimen/spacing_16"
+            android:paddingTop="@dimen/spacing_12"
+            android:paddingRight="@dimen/spacing_16"
+            android:paddingBottom="@dimen/spacing_12">
+
+            <TextView
+                android:id="@+id/tv_label_device"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/countries_label_device_memory"
+                android:textColor="@color/regular_text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:viewBindingIgnore="true"/>
+
+            <TextView
+                android:id="@+id/tv_free_gb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/regular_text"
+                app:layout_constraintBaseline_toBaselineOf="@id/tv_label_device"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:text="Free 3.61 GB" />
+
+            <ProgressBar
+                android:id="@+id/progress_free_space"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/progress_bar_height_16"
+                android:progressDrawable="@drawable/progress_bar_free_space"
+                app:layout_constraintLeft_toLeftOf="@id/tv_label_device"
+                app:layout_constraintTop_toBottomOf="@id/tv_label_device"
+                app:layout_constraintRight_toRightOf="@id/tv_free_gb"
+                android:layout_marginTop="@dimen/spacing_8"
+                tools:progress="50"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:elevation="1dp"
+            android:layout_marginTop="@dimen/spacing_24"
+            android:layout_marginBottom="@dimen/spacing_24">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="@string/countries_label_europe"
+                android:textSize="@dimen/font_normal_16"
+                android:textColor="@color/regular_text"
+                android:textStyle="bold"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/spacing_16" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>

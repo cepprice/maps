@@ -1,29 +1,35 @@
-package ru.cepprice.maps.ui.contries;
+package ru.cepprice.maps.ui.activity;
 
 import android.Manifest;
 import android.app.DownloadManager;
+import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
+
+import java.util.ArrayList;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import ru.cepprice.maps.R;
-import ru.cepprice.maps.data.model.Region;
-import ru.cepprice.maps.data.remote.Downloader;
-import ru.cepprice.maps.databinding.ActivityCountryListBinding;
-import ru.cepprice.maps.ui.adapter.RegionListAdapter;
 import ru.cepprice.maps.data.local.InternalStorageHelper;
-import ru.cepprice.maps.utils.KotlinUtils;
-import ru.cepprice.maps.data.remote.MapsDownloadManager;
 import ru.cepprice.maps.data.local.RegionProvider;
+import ru.cepprice.maps.data.model.Region;
 import ru.cepprice.maps.data.model.mapstate.Downloaded;
+import ru.cepprice.maps.data.remote.Downloader;
+import ru.cepprice.maps.data.remote.MapsDownloadManager;
+import ru.cepprice.maps.ui.adapter.RegionListAdapter;
+import ru.cepprice.maps.utils.KotlinUtils;
+import ru.cepprice.maps.databinding.ActivityMainBinding;
+import ru.cepprice.maps.utils.Utils;
 
-public class CountryListActivity extends AppCompatActivity implements Downloader {
+public class MainActivity extends AppCompatActivity implements Downloader {
 
-    private ActivityCountryListBinding binding;
+    private ActivityMainBinding binding;
 
     private RegionListAdapter adapter;
     private MapsDownloadManager downloadManager;
@@ -31,7 +37,7 @@ public class CountryListActivity extends AppCompatActivity implements Downloader
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityCountryListBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -113,9 +119,8 @@ public class CountryListActivity extends AppCompatActivity implements Downloader
         return new RegionListAdapter.Callback() {
             @Override
             public void onItemClick(Region region, View view) {
-                if (region.getChildRegions().size() > 0 ) {
-                    // TODO: Navigate to activity with child regions
-                }
+                if (region.getChildRegions().size() == 0) return;
+                Utils.navigateToRegionListActivity(MainActivity.this, region);
             }
 
             @Override

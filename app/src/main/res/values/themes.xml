@@ -9,15 +9,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="toolbarStyle">@style/ToolbarStyle</item>
     </style>
     
-    <style name="ToolbarStyle">
-        <item name="android:layout_height">?attr/actionBarSize</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="background">@color/primary</item>
-        <item name="titleTextColor">@color/white</item>
-    </style>
 
     <style name="CellText">
         <item name="android:textColor">@color/regular_text</item>
