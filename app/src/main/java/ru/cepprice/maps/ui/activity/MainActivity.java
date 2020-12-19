@@ -11,8 +11,8 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import ru.cepprice.maps.R;
-import ru.cepprice.maps.data.local.StorageHelper;
 import ru.cepprice.maps.data.local.RegionProvider;
+import ru.cepprice.maps.data.local.StorageHelper;
 import ru.cepprice.maps.data.model.Region;
 import ru.cepprice.maps.data.model.mapstate.Downloaded;
 import ru.cepprice.maps.data.model.mapstate.NotDownloaded;
@@ -61,8 +61,7 @@ public class MainActivity extends AppCompatActivity implements DownloadConsumer 
     @Override
     public void onProgressUpdated(Region region, int progress) {
         if (progress == 100) region.setMapState(new Downloaded());
-        else region.setProgress(progress);
-        adapter.updateItem(region);
+        else updateListItem(region, progress);
     }
 
     @Override
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements DownloadConsumer 
     @Override
     public void onCancelled(Region region) {
         region.setMapState(new NotDownloaded());
-        adapter.updateItem(region);
+        updateListItem(region, 0);
     }
 
     @Override
@@ -132,6 +131,13 @@ public class MainActivity extends AppCompatActivity implements DownloadConsumer 
                 region.getMapState().onImageButtonClick(region, holder, downloadManager);
             }
         };
+    }
+
+    private void updateListItem(Region region, int progress) {
+        region.setProgress(progress);
+        RegionListAdapter.RegionViewHolder holder = (RegionListAdapter.RegionViewHolder) binding.rv
+                .findViewHolderForAdapterPosition(adapter.getItemPosition(region));
+        if (holder != null) region.getMapState().renderViewHolder(holder, progress);
     }
 
 }

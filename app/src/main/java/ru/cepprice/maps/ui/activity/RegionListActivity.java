@@ -56,8 +56,7 @@ public class RegionListActivity extends AppCompatActivity implements DownloadCon
     @Override
     public void onProgressUpdated(Region region, int progress) {
         if (progress == 100) region.setMapState(new Downloaded());
-        else region.setProgress(progress);
-        adapter.updateItem(region);
+        else updateListItem(region, progress);
     }
 
     @Override
@@ -69,7 +68,7 @@ public class RegionListActivity extends AppCompatActivity implements DownloadCon
     @Override
     public void onCancelled(Region region) {
         region.setMapState(new NotDownloaded());
-        adapter.updateItem(region);
+        updateListItem(region, 0);
     }
 
     @Override
@@ -124,6 +123,13 @@ public class RegionListActivity extends AppCompatActivity implements DownloadCon
                 region.getMapState().onImageButtonClick(region, holder, downloadManager);
             }
         };
+    }
+
+    private void updateListItem(Region region, int progress) {
+        region.setProgress(progress);
+        RegionListAdapter.RegionViewHolder holder = (RegionListAdapter.RegionViewHolder) binding.rv
+                .findViewHolderForAdapterPosition(adapter.getItemPosition(region));
+        if (holder != null) region.getMapState().renderViewHolder(holder, progress);
     }
 
 }
