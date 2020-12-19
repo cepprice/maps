@@ -47,8 +47,9 @@ public abstract class DownloadingActivity
     protected void onStart() {
         super.onStart();
         setupDownloadManager();
-        adapter.updateItems(StorageHelper.getDownloadedMaps());
+        adapter.notifyDataSetChanged();
     }
+
 
     @Override
     protected void onStop() {

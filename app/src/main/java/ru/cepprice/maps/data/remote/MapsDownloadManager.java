@@ -73,9 +73,9 @@ public class MapsDownloadManager {
 
                 Region downloadedRegion = regions.poll();
 
-                if (!isDownloadSuccessful()) return;
+                if (isDownloadSuccessful()) downloadConsumer.onDownloaded(downloadedRegion);
+                else downloadConsumer.onCancelled(downloadedRegion);
 
-                downloadConsumer.onDownloaded(downloadedRegion);
                 if (lastDisposable != null) lastDisposable.dispose();
                 pollAllCancelledDownloads();
                 performDownloadOperation(regions.peek());
