@@ -34,15 +34,11 @@ public class NotDownloaded extends MapState {
     public void onImageButtonClick(
             Region region, RegionViewHolder holder, MapsDownloadManager downloadManager)
     {
-        if (Utils.isExternalStorageAvailable()) {
-            downloadManager.enqueueDownload(region);
-            setImageDrawable(holder.getIvAction(), R.drawable.ic_action_remove_dark);
-            showProgressBar(holder.getDownloadProgressBar());
-            region.setMapState(new InProcess());
-            Log.d("M_MapState", "Enqueue map download");
-        } else {
-            Log.d("M_NotDownloaded", "External storage unavailable");
-        }
+        Log.d("M_NotDownloaded", "Enqueuing download");
+        downloadManager.enqueueDownload(region);
+        setImageDrawable(holder.getIvAction(), R.drawable.ic_action_remove_dark);
+        showProgressBar(holder.getDownloadProgressBar());
+        region.setMapState(new InProcess());
     }
 
     @Override

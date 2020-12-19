@@ -31,11 +31,12 @@ public class InProcess extends MapState {
 
     @Override
     public void onImageButtonClick(Region region, RegionListAdapter.RegionViewHolder holder, MapsDownloadManager downloadManager) {
-        // TODO: Cancel downloading
         Log.d("M_MapState", "Cancel downloading");
+        downloadManager.cancelDownload(region);
+        region.setMapState(new NotDownloaded());
         setImageDrawable(holder.getIvAction(), R.drawable.ic_action_import);
         hideProgressBar(holder.getDownloadProgressBar());
-        region.setMapState(new NotDownloaded());
+        resetProgress(holder.getDownloadProgressBar());
     }
 
     @Override

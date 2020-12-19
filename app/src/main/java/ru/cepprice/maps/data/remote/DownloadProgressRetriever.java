@@ -15,11 +15,11 @@ import ru.cepprice.maps.data.model.Region;
 public class DownloadProgressRetriever {
 
     private final DownloadManager downloadManager;
-    private final Downloader listener;
+    private final DownloadCunsumer listener;
 
     private BooleanSupplier downloading = () -> false;
 
-    public DownloadProgressRetriever(DownloadManager downloadManager, Downloader listener) {
+    public DownloadProgressRetriever(DownloadManager downloadManager, DownloadCunsumer listener) {
         this.downloadManager = downloadManager;
         this.listener = listener;
     }

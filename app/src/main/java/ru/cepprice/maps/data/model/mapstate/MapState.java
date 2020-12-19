@@ -46,6 +46,10 @@ public abstract class MapState implements Parcelable {
         // TODO: Set progress?
     }
 
+    protected void resetProgress(ProgressBar progressBar) {
+        progressBar.setProgress(0);
+    }
+
     protected void setImageDrawable(ImageView image, @DrawableRes int drawable) {
         Context context = image.getContext();
         image.setImageDrawable(ContextCompat.getDrawable(context, drawable));
