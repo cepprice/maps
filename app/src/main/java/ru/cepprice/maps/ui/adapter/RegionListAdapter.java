@@ -35,7 +35,10 @@ public class RegionListAdapter extends RecyclerView.Adapter<RegionListAdapter.Re
 
     public void updateItem(Region region) {
         int idxOfChangedRegion = regions.indexOf(region);
-        notifyItemChanged(idxOfChangedRegion);
+        try {
+            notifyItemChanged(idxOfChangedRegion);
+        } catch (IllegalStateException ignored) {
+        }
     }
 
     public interface Callback {

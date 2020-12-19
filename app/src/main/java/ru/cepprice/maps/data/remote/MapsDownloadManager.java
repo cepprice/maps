@@ -4,6 +4,7 @@ import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
@@ -30,9 +31,8 @@ public class MapsDownloadManager {
     private static long lastDownloadId;
     private static Disposable lastDisposable;
 
-    private final Context context;
-    private final DownloadCunsumer downloadCunsumer;
-    private final DownloadManager manager;
+    private final DownloadConsumer downloadConsumer;
+    private final DownloadManager downloadManager;
     private final DownloadProgressRetriever progressRetriever;
 
     private BroadcastReceiver onCompleteReceiver;
@@ -40,10 +40,9 @@ public class MapsDownloadManager {
 
 
     public MapsDownloadManager(Context context) {
-        this.context = context;
-        downloadCunsumer = (DownloadCunsumer) context;
-        manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-        progressRetriever = new DownloadProgressRetriever(manager, downloadCunsumer);
+        downloadConsumer = (DownloadConsumer) context;
+        downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        progressRetriever = new DownloadProgressRetriever(downloadManager, downloadConsumer);
 
         setupOnCompleteReceiver();
         setupOnNotificationClickReceiver();
@@ -60,9 +59,9 @@ public class MapsDownloadManager {
 
     public void cancelDownload(Region region) {
         if (region.getName().equals(lastDownloadName)) {
-            manager.remove(lastDownloadId);
-            lastDisposable.dispose();
-            regions.poll();
+            downloadManager.remove(lastDownloadId);
+            if (lastDisposable != null) lastDisposable.dispose();
+            downloadConsumer.onCancelled(region);
         }
     }
 
@@ -73,15 +72,22 @@ public class MapsDownloadManager {
                 if (!intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) return;
 
                 Region downloadedRegion = regions.poll();
-                if (downloadedRegion != null &&
-                        !(downloadedRegion.getMapState() instanceof NotDownloaded)) {
-                    downloadCunsumer.onDownloaded(downloadedRegion);
-                }
+
+                if (!isDownloadSuccessful()) return;
+
+                downloadConsumer.onDownloaded(downloadedRegion);
                 if (lastDisposable != null) lastDisposable.dispose();
                 pollAllCancelledDownloads();
                 performDownloadOperation(regions.peek());
             }
         };
+    }
+
+    private boolean isDownloadSuccessful() {
+        Cursor cursor = downloadManager.query(new DownloadManager.Query().setFilterById(lastDownloadId));
+        if (!cursor.moveToFirst()) return false;
+        int status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
+        return status == DownloadManager.STATUS_SUCCESSFUL;
     }
 
     private void setupOnNotificationClickReceiver() {
@@ -95,7 +101,7 @@ public class MapsDownloadManager {
 
     private void pollAllCancelledDownloads() {
         while (regions.peek() != null && regions.peek().getMapState() instanceof NotDownloaded) {
-            regions.poll();
+            downloadConsumer.onCancelled(regions.poll());
         }
     }
 
@@ -103,7 +109,7 @@ public class MapsDownloadManager {
         if (region == null) return;
         createFolderIfNeeded();
         lastDownloadId = startDownload(region.getDownloadName());
-        Log.d("M_MapsDownloadManager", "Last ID: " + lastDownloadId);
+        Log.d("M_MapsDownloadManager", "Downloading now | name: " + region.getName() +  " id: " + lastDownloadId);
         lastDisposable = progressRetriever.retrieve(lastDownloadId, region);
         lastDownloadName = region.getName();
     }
@@ -111,7 +117,7 @@ public class MapsDownloadManager {
     private void createFolderIfNeeded()  {
         File documentsFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
         File file = new File(documentsFolder, EXTERNAL_STORAGE_FOLDER_NAME);
-        if (!file.exists() && !file.mkdirs()) downloadCunsumer.onExternalStorageUnavailable();
+        if (!file.exists() && !file.mkdirs()) downloadConsumer.onExternalStorageUnavailable();
     }
 
     private long startDownload(String fileName) {
@@ -120,7 +126,7 @@ public class MapsDownloadManager {
         Uri uri = Uri.parse(BASE_URL + fileName);
         String relativeFilePath = EXTERNAL_STORAGE_FOLDER_NAME + "/" + fileName;
 
-        return manager.enqueue(new DownloadManager.Request(uri)
+        return downloadManager.enqueue(new DownloadManager.Request(uri)
                 .setAllowedNetworkTypes(allowedNetworkTypes)
                 .setAllowedOverRoaming(false)
                 .setTitle(fileName)

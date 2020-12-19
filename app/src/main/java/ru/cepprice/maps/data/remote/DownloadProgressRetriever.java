@@ -15,11 +15,11 @@ import ru.cepprice.maps.data.model.Region;
 public class DownloadProgressRetriever {
 
     private final DownloadManager downloadManager;
-    private final DownloadCunsumer listener;
+    private final DownloadConsumer listener;
 
     private BooleanSupplier downloading = () -> false;
 
-    public DownloadProgressRetriever(DownloadManager downloadManager, DownloadCunsumer listener) {
+    public DownloadProgressRetriever(DownloadManager downloadManager, DownloadConsumer listener) {
         this.downloadManager = downloadManager;
         this.listener = listener;
     }
@@ -31,7 +31,7 @@ public class DownloadProgressRetriever {
                 .repeatUntil(downloading)
                 .subscribe(progress -> {
                     listener.onProgressUpdated(region, progress);
-                    Log.d("M_DownloadProgress", "Progress: " + progress);
+                    Log.d("M_DownloadProgress", "Progress: " + progress + ", name: " + region.getName());
                 });
     }
 

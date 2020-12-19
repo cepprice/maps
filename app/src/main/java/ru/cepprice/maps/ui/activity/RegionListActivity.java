@@ -1,5 +1,7 @@
 package ru.cepprice.maps.ui.activity;
 
+import android.app.DownloadManager;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 
@@ -8,21 +10,25 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import ru.cepprice.maps.R;
 import ru.cepprice.maps.data.model.Region;
+import ru.cepprice.maps.data.model.mapstate.Downloaded;
+import ru.cepprice.maps.data.model.mapstate.NotDownloaded;
+import ru.cepprice.maps.data.remote.DownloadConsumer;
+import ru.cepprice.maps.data.remote.MapsDownloadManager;
 import ru.cepprice.maps.databinding.ActivityRegionListBinding;
 import ru.cepprice.maps.ui.adapter.RegionListAdapter;
 import ru.cepprice.maps.utils.Constants;
 import ru.cepprice.maps.utils.KotlinUtils;
 import ru.cepprice.maps.utils.Utils;
 
-public class RegionListActivity extends AppCompatActivity {
+public class RegionListActivity extends AppCompatActivity implements DownloadConsumer {
 
     private ActivityRegionListBinding binding;
 
-    private  String parentRegionNameArg;
-    private  List<Region> childRegionListArg;
+    private String parentRegionNameArg;
+    private List<Region> childRegionListArg;
 
+    private MapsDownloadManager downloadManager;
     private RegionListAdapter adapter;
 
     @Override
@@ -35,6 +41,54 @@ public class RegionListActivity extends AppCompatActivity {
         setupRecyclerView();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setupDownloadManager();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceivers();
+    }
+
+    @Override
+    public void onProgressUpdated(Region region, int progress) {
+        if (progress == 100) region.setMapState(new Downloaded());
+        else region.setProgress(progress);
+        adapter.updateItem(region);
+    }
+
+    @Override
+    public void onDownloaded(Region region) {
+        region.setMapState(new Downloaded());
+        adapter.updateItem(region);
+    }
+
+    @Override
+    public void onCancelled(Region region) {
+        region.setMapState(new NotDownloaded());
+        adapter.updateItem(region);
+    }
+
+    @Override
+    public void onExternalStorageUnavailable() {
+        // TODO
+    }
+
+    private void setupDownloadManager() {
+        downloadManager = new MapsDownloadManager(this);
+        registerReceiver(downloadManager.getOnCompleteReceiver(),
+                new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        registerReceiver(downloadManager.getOnNotificationClickReceiver(),
+                new IntentFilter(DownloadManager.ACTION_NOTIFICATION_CLICKED));
+    }
+
+    private void unregisterReceivers() {
+        unregisterReceiver(downloadManager.getOnCompleteReceiver());
+        unregisterReceiver(downloadManager.getOnNotificationClickReceiver());
+    }
 
     private void getExtras() {
         Bundle bundle = getIntent().getExtras();
@@ -67,6 +121,7 @@ public class RegionListActivity extends AppCompatActivity {
 
             @Override
             public void onImageButtonClick(Region region, RegionListAdapter.RegionViewHolder holder) {
+                region.getMapState().onImageButtonClick(region, holder, downloadManager);
             }
         };
     }

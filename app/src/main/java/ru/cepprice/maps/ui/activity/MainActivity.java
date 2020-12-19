@@ -15,14 +15,15 @@ import ru.cepprice.maps.data.local.StorageHelper;
 import ru.cepprice.maps.data.local.RegionProvider;
 import ru.cepprice.maps.data.model.Region;
 import ru.cepprice.maps.data.model.mapstate.Downloaded;
-import ru.cepprice.maps.data.remote.DownloadCunsumer;
+import ru.cepprice.maps.data.model.mapstate.NotDownloaded;
+import ru.cepprice.maps.data.remote.DownloadConsumer;
 import ru.cepprice.maps.data.remote.MapsDownloadManager;
 import ru.cepprice.maps.databinding.ActivityMainBinding;
 import ru.cepprice.maps.ui.adapter.RegionListAdapter;
 import ru.cepprice.maps.utils.KotlinUtils;
 import ru.cepprice.maps.utils.Utils;
 
-public class MainActivity extends AppCompatActivity implements DownloadCunsumer {
+public class MainActivity extends AppCompatActivity implements DownloadConsumer {
 
     private ActivityMainBinding binding;
 
@@ -67,6 +68,12 @@ public class MainActivity extends AppCompatActivity implements DownloadCunsumer 
     @Override
     public void onDownloaded(Region region) {
         region.setMapState(new Downloaded());
+        adapter.updateItem(region);
+    }
+
+    @Override
+    public void onCancelled(Region region) {
+        region.setMapState(new NotDownloaded());
         adapter.updateItem(region);
     }
 
