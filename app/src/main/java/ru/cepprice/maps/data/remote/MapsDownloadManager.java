@@ -4,7 +4,6 @@ import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
@@ -14,18 +13,16 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 import io.reactivex.disposables.Disposable;
-import ru.cepprice.maps.data.local.InternalStorageHelper;
 import ru.cepprice.maps.data.model.Region;
 import ru.cepprice.maps.data.model.mapstate.NotDownloaded;
 
 import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
+import static ru.cepprice.maps.utils.Constants.EXTERNAL_STORAGE_FOLDER_NAME;
 
 public class MapsDownloadManager {
 
     private static final String BASE_URL =
             "http://download.osmand.net/download.php?standard=yes&file=";
-
-    private static final String EXTERNAL_STORAGE_FOLDER_NAME = "OsmAnd/";
 
     private static final Queue<Region> regions = new ArrayDeque<>();
 
@@ -79,7 +76,6 @@ public class MapsDownloadManager {
                 if (downloadedRegion != null &&
                         !(downloadedRegion.getMapState() instanceof NotDownloaded)) {
                     downloadCunsumer.onDownloaded(downloadedRegion);
-                    InternalStorageHelper.addDownloadedMap(context, downloadedRegion.getDownloadName());
                 }
                 if (lastDisposable != null) lastDisposable.dispose();
                 pollAllCancelledDownloads();

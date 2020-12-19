@@ -8,7 +8,6 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.function.Consumer;
 
 import ru.cepprice.maps.R;
 import ru.cepprice.maps.data.model.Region;
@@ -25,7 +24,7 @@ public class RegionProvider {
     private static XmlPullParser parser;
 
     public static ArrayList<Region> getRegions(Context context) {
-        ArrayList<String> downloadedMaps = InternalStorageHelper.getDownloadedMaps(context);
+        ArrayList<String> downloadedMaps = StorageHelper.getDownloadedMaps();
         Log.d("M_RegionProvider", "Downloaded maps:");
         for (String downloadedMap :
                 downloadedMaps) {

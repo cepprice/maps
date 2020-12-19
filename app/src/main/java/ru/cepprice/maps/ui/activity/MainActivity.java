@@ -11,7 +11,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import ru.cepprice.maps.R;
-import ru.cepprice.maps.data.local.InternalStorageHelper;
+import ru.cepprice.maps.data.local.StorageHelper;
 import ru.cepprice.maps.data.local.RegionProvider;
 import ru.cepprice.maps.data.model.Region;
 import ru.cepprice.maps.data.model.mapstate.Downloaded;
@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity implements DownloadCunsumer 
     }
 
     private void setupDeviceMemoryInfo() {
-        double free = InternalStorageHelper.getFreeGigabytes();
-        double total = InternalStorageHelper.getTotalGigabytes();
+        double free = StorageHelper.getFreeGigabytes();
+        double total = StorageHelper.getTotalGigabytes();
 
         String formattedGigabytes = String.format("%.2f", free).replace(',', '.');
         String text = getString(R.string.countries_label_free_gigabytes, formattedGigabytes);
