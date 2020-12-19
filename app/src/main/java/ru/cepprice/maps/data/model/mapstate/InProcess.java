@@ -1,8 +1,10 @@
 package ru.cepprice.maps.data.model.mapstate;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+import android.widget.Toast;
 
 import ru.cepprice.maps.R;
 import ru.cepprice.maps.data.model.Region;
@@ -33,9 +35,14 @@ public class InProcess extends MapState {
     public void onImageButtonClick(Region region, RegionListAdapter.RegionViewHolder holder, MapsDownloadManager downloadManager) {
         Log.d("M_MapState", "Cancel downloading");
         downloadManager.cancelDownload(region);
+
         setImageDrawable(holder.getIvAction(), R.drawable.ic_action_import);
         hideProgressBar(holder.getDownloadProgressBar());
         resetProgress(holder.getDownloadProgressBar());
+
+        Context context = holder.getTvRegionName().getContext();
+        String text = context.getString(R.string.main_toast_cancel);
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
     @Override

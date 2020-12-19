@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">Maps</string>
 
-    <string name="countries_toolbar_title">Download Maps</string>
-    <string name="countries_label_device_memory">Device memory</string>
-    <string name="countries_label_free_gigabytes">Free %s Gb</string>
-    <string name="countries_label_europe">Europe</string>
+    <string name="main_toolbar_title">Download Maps</string>
+    <string name="main_label_device_memory">Device memory</string>
+    <string name="main_label_free_gigabytes">Free %s Gb</string>
+    <string name="main_label_europe">Europe</string>
+    <string name="main_toast_cancel">Cancelled download</string>
 </resources>
