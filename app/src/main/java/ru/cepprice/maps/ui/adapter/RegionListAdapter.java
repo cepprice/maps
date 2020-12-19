@@ -40,6 +40,21 @@ public class RegionListAdapter extends RecyclerView.Adapter<RegionListAdapter.Re
         }
     }
 
+    // Regions that were downloaded from not visible activity need to
+    // be rendered an downloaded ones in onStart
+    public void updateItems(List<String> downloadedRegions) {
+        int counter = downloadedRegions.size();
+        for (Region region :
+                regions) {
+            boolean isRegionDownloaded = downloadedRegions.contains(region.getDownloadName());
+            if (isRegionDownloaded && counter > 0) {
+                updateItem(region);
+                counter--;
+            }
+        }
+
+    }
+
     public int getItemPosition(Region region) {
         return regions.indexOf(region);
     }
